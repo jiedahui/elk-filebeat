@@ -25,23 +25,23 @@ tar xf $qjpath/$logstash_tar -C /usr/local/
 mv /usr/local/filebeat-6.5.4-linux-x86_64 /usr/local/filebeat
 
 #kafka集群的ip
-k_ip1='172.31.138.132'
-k_ip2='172.31.138.133'
-k_ip3='172.31.138.131'
+k_ip1='172.31.138.144'
+k_ip2='172.31.138.144'
+k_ip3='172.31.138.144'
 
 echo 'filebeat.prospectors:
 - input_type: log
   paths:
-    -  /var/log/*.log
+    -  /var/log/nginx/*.log
 
 
 output.kafka:   
   hosts: ["'$k_ip1':9092","'$k_ip2':9092","'$k_ip3':9092"]
-  topic: "all_log_test"
+  topic: "nginx_log"
 ' > /usr/local/filebeat/filebeat.yml
 
 #启动
-/usr/local/filebeat/filebeat -e -c /usr/local/filebeat/filebeat.yml
+nohup /usr/local/filebeat/filebeat -e -c /usr/local/filebeat/filebeat.yml &
 
 sleep 3
 echo 'filebeat已启动'
